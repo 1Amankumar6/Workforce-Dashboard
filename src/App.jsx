@@ -1,29 +1,52 @@
-import React, { useEffect, useState } from "react";
-import Login from "../src/component/auth/Login";
-import EmployeeDashboard from "./component/dashboard/EmployeeDashboard";
-import AdminDashboard from "./component/dashboard/AdminDashboard";
-import { getLocalStorage, setLocalStorage } from "./utils/LocalStorage";
+import React, { useContext, useEffect, useState } from 'react'
+import Login from './components/auth/Login'
+import EmployeeDashboard from './components/Dashboard/EmployeeDashboard'
+import AdminDashboard from './components/Dashboard/AdminDashboard'
+import { AuthContext } from './context/AuthProvider'
+
 const App = () => {
-  const [user, setUser] = useState(null);
+
+  const [user, setUser] = useState(null)
+  const [loggedInUserData, setLoggedInUserData] = useState(null)
+  const [userData,SetUserData] = useContext(AuthContext)
+
+  useEffect(()=>{
+    const loggedInUser = localStorage.getItem('loggedInUser')
+    
+    if(loggedInUser){
+      const userData = JSON.parse(loggedInUser)
+      setUser(userData.role)
+      setLoggedInUserData(userData.data)
+    }
+
+  },[])
+
 
   const handleLogin = (email, password) => {
-    // console.log(email, password);
-    if (email == "amin@me.com" && password == "123") {
-      console.log("Admin aa rhe hai");
-    } else if (email == "user@me.com" && password == "123") {
-      console.log("User aa gya hai");
-    } else {
-      alert("Invalid credentials");
+    if (email == 'admin@me.com' && password == '123') {
+      setUser('admin')
+      localStorage.setItem('loggedInUser', JSON.stringify({ role: 'admin' }))
+    } else if (userData) {
+      const employee = userData.find((e) => email == e.email && e.password == password)
+      if (employee) {
+        setUser('employee')
+        setLoggedInUserData(employee)
+        localStorage.setItem('loggedInUser', JSON.stringify({ role: 'employee',data:employee }))
+      }
     }
-  };
-  handleLogin("admin@");
+    else {
+      alert("Invalid Credentials")
+    }
+  }
+
+
+
   return (
     <>
-      {!user ? <Login handleLogin={handleLogin} /> : ""}
-      {/* <EmployeeDashboard/> */}
-      {/* <AdminDashboard /> */}
-    </> //Fragments
-  );
-};
+      {!user ? <Login handleLogin={handleLogin} /> : ''}
+      {user == 'admin' ? <AdminDashboard changeUser={setUser} /> : (user == 'employee' ? <EmployeeDashboard changeUser={setUser} data={loggedInUserData} /> : null) }
+    </>
+  )
+}
 
-export default App;
+export default App
