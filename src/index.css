@@ -2,17 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
   color: #fff;
 }
-body{
-  background-color: #111;
+
+body {
+  /* background-color: #111; */
+  background: linear-gradient(135deg, #232526, #414345);
+  background: linear-gradient(90deg, #000000, #434343);
 }
-#tasklist::-webkit-scrollbar{
-    background-color: transparent;
-    height: 5px;
+
+#tasklist::-webkit-scrollbar {
+  background-color: transparent;
+  height: 5px;
 }
-#tasklist::-webkit-scrollbar-thumb{
+
+#tasklist::-webkit-scrollbar-thumb {
   background-color: rgb(143, 143, 143);
   border-radius: 50px;
+}
+
+body::-webkit-scrollbar {
+  width: 10px; /* Set the width of the scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: #333; /* Darker track for the scrollbar */
+  border-radius: 10px; /* Rounded corners */
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #777; /* Dark thumb */
+  border-radius: 10px; /* Rounded corners */
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #ffcc00; /* Thumb turns yellow on hover */
+}
+
+body::-webkit-scrollbar-button {
+  background: transparent;
+  display: none; /* Hide scrollbar buttons */
 }
