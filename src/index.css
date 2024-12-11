@@ -9,7 +9,7 @@
 body {
   /* background-color: #111; */
   background: linear-gradient(135deg, #232526, #414345);
-  background: linear-gradient(90deg, #000000, #434343);
+  background: linear-gradient(90deg, #000000, #434343, #000000);
 }
 
 #tasklist::-webkit-scrollbar {
